@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRINITY_ | Teaser 05 - Trinity AI</title>
+  <link rel="stylesheet" href="../css/terminal.css">
+  <style>
+    .trinity-display {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      margin: 40px 0;
+    }
+
+    .ai-row {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 28px;
+      letter-spacing: 6px;
+      opacity: 0.9;
+    }
+
+    .ai-indicator {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+
+    .ai-row.openai .ai-indicator { background-color: var(--openai-green); box-shadow: 0 0 20px var(--openai-green); }
+    .ai-row.claude .ai-indicator { background-color: var(--claude-orange); box-shadow: 0 0 20px var(--claude-orange); }
+    .ai-row.gemini .ai-indicator { background-color: var(--gemini-blue); box-shadow: 0 0 20px var(--gemini-blue); }
+
+    .ai-row.openai { color: var(--openai-green); }
+    .ai-row.claude { color: var(--claude-orange); }
+    .ai-row.gemini { color: var(--gemini-blue); }
+
+    .divider {
+      width: 300px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--terminal-gray), transparent);
+      margin: 60px 0;
+    }
+
+    .unified-text {
+      font-size: 20px;
+      color: var(--terminal-white);
+      letter-spacing: 8px;
+      text-transform: uppercase;
+    }
+
+    .power-text {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: 12px;
+      margin-top: 30px;
+      background: linear-gradient(90deg, #10a37f, #d97706, #4285f4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body>
+  <div class="teaser">
+    <div class="grid-bg"></div>
+
+    <div class="terminal-header">
+      <span>CORE://INTELLIGENCE</span>
+      <span>TRINITY_</span>
+    </div>
+
+    <div class="content">
+      <div class="title" style="font-size: 56px; margin-bottom: 60px;">THREE MINDS</div>
+
+      <div class="trinity-display">
+        <div class="ai-row openai">
+          <div class="ai-indicator"></div>
+          <span>GPT</span>
+        </div>
+        <div class="ai-row claude">
+          <div class="ai-indicator"></div>
+          <span>CLAUDE</span>
+        </div>
+        <div class="ai-row gemini">
+          <div class="ai-indicator"></div>
+          <span>GEMINI</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="unified-text">One purpose</div>
+      <div class="power-text">YOUR REALITY</div>
+
+      <div class="trinity-bar" style="margin-top: 60px;">
+        <div class="trinity-dot openai"></div>
+        <div class="trinity-dot claude"></div>
+        <div class="trinity-dot gemini"></div>
+      </div>
+    </div>
+
+    <div class="terminal-footer">
+      <span>[ TEASER 05 ]</span>
+      <span>CONVERGENCE</span>
+    </div>
+  </div>
+</body>
+</html>

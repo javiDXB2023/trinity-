@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRINITY_ | Story 01</title>
+  <link rel="stylesheet" href="../css/terminal.css">
+  <style>
+    .story-title {
+      font-size: 96px;
+      font-weight: 700;
+      letter-spacing: 24px;
+      text-shadow: 0 0 50px var(--glow-white);
+    }
+
+    .countdown-display {
+      font-size: 200px;
+      font-weight: 700;
+      margin: 100px 0;
+      text-shadow: 0 0 80px var(--glow-white);
+    }
+
+    .status-line {
+      font-size: 20px;
+      letter-spacing: 6px;
+      color: var(--terminal-gray);
+    }
+
+    .loading-bar {
+      width: 400px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      margin-top: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loading-bar::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 60%;
+      background: linear-gradient(90deg, #10a37f, #d97706, #4285f4);
+      animation: loading 2s ease-in-out infinite;
+    }
+
+    @keyframes loading {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(200%); }
+    }
+  </style>
+</head>
+<body>
+  <div class="teaser story">
+    <div class="grid-bg"></div>
+
+    <div class="terminal-header">
+      <span>COUNTDOWN://ACTIVE</span>
+      <span>TRINITY_</span>
+    </div>
+
+    <div class="content">
+      <div class="story-title">TRINITY_</div>
+
+      <div class="countdown-display">03</div>
+
+      <div class="status-line">&gt; DAYS UNTIL REVELATION</div>
+
+      <div class="loading-bar"></div>
+
+      <div class="trinity-bar" style="margin-top: 100px;">
+        <div class="trinity-dot openai"></div>
+        <div class="trinity-dot claude"></div>
+        <div class="trinity-dot gemini"></div>
+      </div>
+    </div>
+
+    <div class="terminal-footer">
+      <span>[ STORY ]</span>
+      <span>SWIPE UP</span>
+    </div>
+  </div>
+</body>
+</html>
