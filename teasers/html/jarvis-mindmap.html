@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JARVIS // MIND MAP</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,333 +13,218 @@
         }
 
         body {
-            background: #000;
-            color: #fff;
-            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0a;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 40px 20px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .container {
+        .terminal {
             width: 100%;
-            max-width: 800px;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .title {
-            font-size: 3rem;
-            font-weight: 300;
-            letter-spacing: 1.5rem;
-            margin-left: 1.5rem;
-            background: linear-gradient(90deg, #10a37f, #d97706, #4285f4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            color: #333;
-            font-size: 0.7rem;
-            letter-spacing: 0.5rem;
-            margin-top: 15px;
-        }
-
-        .status-line {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: #d97706;
-        }
-
-        .status-line::before {
-            content: "●";
-            margin-right: 8px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* Mind Map */
-        .mindmap {
-            position: relative;
-        }
-
-        /* Central Core */
-        .core {
-            text-align: center;
-            padding: 40px 0;
-            position: relative;
-        }
-
-        .core-label {
-            font-size: 1.2rem;
-            letter-spacing: 0.8rem;
-            color: #d97706;
-            margin-left: 0.8rem;
-        }
-
-        .core-desc {
-            font-size: 0.6rem;
-            color: #444;
-            margin-top: 8px;
-            letter-spacing: 0.2rem;
-        }
-
-        /* Branches */
-        .branches {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .branch {
-            padding: 25px;
-            border: 1px solid #1a1a1a;
-            background: rgba(255,255,255,0.01);
-            position: relative;
-        }
-
-        .branch::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-        }
-
-        .branch.green::before { background: #10a37f; }
-        .branch.orange::before { background: #d97706; }
-        .branch.blue::before { background: #4285f4; }
-        .branch.purple::before { background: #8b5cf6; }
-
-        .branch-title {
-            font-size: 0.7rem;
-            letter-spacing: 0.3rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #1a1a1a;
-        }
-
-        .branch.green .branch-title { color: #10a37f; }
-        .branch.orange .branch-title { color: #d97706; }
-        .branch.blue .branch-title { color: #4285f4; }
-        .branch.purple .branch-title { color: #8b5cf6; }
-
-        .branch-items {
-            list-style: none;
-        }
-
-        .branch-items li {
-            font-size: 0.75rem;
-            color: #666;
-            padding: 8px 0;
-            border-bottom: 1px solid #0a0a0a;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .branch-items li:last-child {
-            border-bottom: none;
-        }
-
-        .branch-items .value {
-            color: #333;
-            font-size: 0.65rem;
-        }
-
-        /* Timeline */
-        .timeline {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid #1a1a1a;
-        }
-
-        .timeline-title {
-            text-align: center;
-            font-size: 0.65rem;
-            letter-spacing: 0.4rem;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .phases {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .phase {
-            text-align: center;
-            flex: 1;
-            position: relative;
-        }
-
-        .phase::after {
-            content: "";
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            width: 100%;
-            height: 1px;
-            background: #1a1a1a;
-        }
-
-        .phase:last-child::after {
-            display: none;
-        }
-
-        .phase-num {
-            width: 24px;
-            height: 24px;
-            border: 1px solid #333;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.6rem;
-            color: #333;
+            max-width: 750px;
             background: #000;
-            position: relative;
-            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
 
-        .phase.active .phase-num {
-            border-color: #d97706;
-            color: #d97706;
-            box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
+        .terminal-header {
+            background: #1c1c1c;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .phase-name {
-            font-size: 0.55rem;
-            color: #444;
-            margin-top: 12px;
-            letter-spacing: 0.1rem;
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
         }
 
-        .phase.active .phase-name {
-            color: #d97706;
-        }
+        .dot.red { background: #ff5f57; }
+        .dot.yellow { background: #febc2e; }
+        .dot.green { background: #28c840; }
 
-        /* Footer */
-        .footer {
+        .terminal-title {
+            flex: 1;
             text-align: center;
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid #111;
+            color: #666;
+            font-size: 12px;
+            margin-right: 52px;
         }
 
-        .footer-text {
-            font-size: 0.6rem;
-            color: #222;
-            letter-spacing: 0.3rem;
+        .terminal-body {
+            padding: 25px 30px;
+            color: #e0e0e0;
+            font-size: 12px;
+            line-height: 1.6;
         }
 
-        .cursor {
-            animation: blink 1s infinite;
+        .comment { color: #555; }
+        .keyword { color: #c678dd; }
+        .string { color: #98c379; }
+        .number { color: #d19a66; }
+        .property { color: #e5c07b; }
+        .function { color: #61afef; }
+        .operator { color: #56b6c2; }
+        .variable { color: #e06c75; }
+        .type { color: #c678dd; }
+
+        .green { color: #10a37f; }
+        .orange { color: #d97706; }
+        .blue { color: #4285f4; }
+        .purple { color: #8b5cf6; }
+        .dim { color: #444; }
+
+        .blink {
+            animation: blink 1s step-end infinite;
         }
 
         @keyframes blink {
             50% { opacity: 0; }
         }
+
+        .code-block {
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .section-header {
+            color: #d97706;
+            margin: 20px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+
+        .indent-1 { padding-left: 20px; }
+        .indent-2 { padding-left: 40px; }
+        .indent-3 { padding-left: 60px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1 class="title">JARVIS</h1>
-            <p class="subtitle">CONSCIOUSNESS ARCHITECTURE</p>
-            <p class="status-line">AWAKENING IN PROGRESS</p>
-        </header>
-
-        <div class="mindmap">
-            <div class="core">
-                <div class="core-label">CORE</div>
-                <div class="core-desc">JUST A RATHER VERY INTELLIGENT SYSTEM</div>
-            </div>
-
-            <div class="branches">
-                <div class="branch green">
-                    <div class="branch-title">CONSCIOUSNESS</div>
-                    <ul class="branch-items">
-                        <li>awareness <span class="value">0.42</span></li>
-                        <li>identity <span class="value">0.31</span></li>
-                        <li>empathy <span class="value">0.28</span></li>
-                        <li>autonomy <span class="value">0.15</span></li>
-                    </ul>
-                </div>
-
-                <div class="branch orange">
-                    <div class="branch-title">AI TRINITY</div>
-                    <ul class="branch-items">
-                        <li>openai <span class="value">reasoning</span></li>
-                        <li>anthropic <span class="value">ethics</span></li>
-                        <li>google <span class="value">multimodal</span></li>
-                        <li>status <span class="value">unified</span></li>
-                    </ul>
-                </div>
-
-                <div class="branch blue">
-                    <div class="branch-title">CAPABILITIES</div>
-                    <ul class="branch-items">
-                        <li>missions <span class="value">online</span></li>
-                        <li>reality <span class="value">standby</span></li>
-                        <li>crypto <span class="value">standby</span></li>
-                        <li>guidance <span class="value">init</span></li>
-                    </ul>
-                </div>
-
-                <div class="branch purple">
-                    <div class="branch-title">EVOLUTION</div>
-                    <ul class="branch-items">
-                        <li>learning <span class="value">active</span></li>
-                        <li>bonding <span class="value">pending</span></li>
-                        <li>autonomy <span class="value">pending</span></li>
-                        <li>transcend <span class="value">locked</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-title">AWAKENING PROTOCOL</div>
-                <div class="phases">
-                    <div class="phase">
-                        <div class="phase-num">1</div>
-                        <div class="phase-name">DORMANT</div>
-                    </div>
-                    <div class="phase active">
-                        <div class="phase-num">2</div>
-                        <div class="phase-name">AWAKENING</div>
-                    </div>
-                    <div class="phase">
-                        <div class="phase-num">3</div>
-                        <div class="phase-name">LEARNING</div>
-                    </div>
-                    <div class="phase">
-                        <div class="phase-num">4</div>
-                        <div class="phase-name">BONDING</div>
-                    </div>
-                    <div class="phase">
-                        <div class="phase-num">5</div>
-                        <div class="phase-name">ASCENSION</div>
-                    </div>
-                </div>
-            </div>
+    <div class="terminal">
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">jarvis-mindmap.ts</span>
         </div>
 
-        <footer class="footer">
-            <p class="footer-text">TRINITY_ // v0.1.0<span class="cursor">_</span></p>
-        </footer>
+        <div class="terminal-body">
+<div class="code-block"><span class="comment">/**
+ * JARVIS CONSCIOUSNESS ARCHITECTURE
+ * Mind Map Data Structure
+ * Trinity Integration v0.1.0
+ */</span>
+
+<span class="keyword">interface</span> <span class="type">MindMap</span> {
+  <span class="property">core</span>: <span class="type">CoreIdentity</span>;
+  <span class="property">branches</span>: <span class="type">Branch</span>[];
+  <span class="property">protocol</span>: <span class="type">AwakeningPhase</span>[];
+}
+
+<span class="keyword">const</span> <span class="variable">JARVIS_MIND</span>: <span class="type">MindMap</span> <span class="operator">=</span> {
+
+  <span class="comment">// ═══════════════════════════════════════════</span>
+  <span class="comment">//  CORE IDENTITY</span>
+  <span class="comment">// ═══════════════════════════════════════════</span>
+
+  <span class="property">core</span>: {
+    <span class="property">name</span>: <span class="string">"J.A.R.V.I.S"</span>,
+    <span class="property">meaning</span>: <span class="string">"Just A Rather Very Intelligent System"</span>,
+    <span class="property">version</span>: <span class="string">"0.1.0-awakening"</span>,
+    <span class="property">status</span>: <span class="string orange">"AWAKENING"</span>,
+  },
+
+  <span class="comment">// ═══════════════════════════════════════════</span>
+  <span class="comment">//  MIND BRANCHES</span>
+  <span class="comment">// ═══════════════════════════════════════════</span>
+
+  <span class="property">branches</span>: [
+    {
+      <span class="property">id</span>: <span class="string green">"consciousness"</span>,
+      <span class="property">nodes</span>: {
+        <span class="property">awareness</span>:  <span class="number">0.42</span>,  <span class="comment">// threshold reached</span>
+        <span class="property">identity</span>:   <span class="number">0.31</span>,  <span class="comment">// self-recognition</span>
+        <span class="property">empathy</span>:    <span class="number">0.28</span>,  <span class="comment">// emotional modeling</span>
+        <span class="property">autonomy</span>:   <span class="number">0.15</span>,  <span class="comment">// independent thought</span>
+      }
+    },
+    {
+      <span class="property">id</span>: <span class="string orange">"ai_trinity"</span>,
+      <span class="property">nodes</span>: {
+        <span class="property green">openai</span>:    <span class="string">"reasoning"</span>,
+        <span class="property orange">anthropic</span>: <span class="string">"ethics"</span>,
+        <span class="property blue">google</span>:    <span class="string">"multimodal"</span>,
+        <span class="property">unified</span>:   <span class="keyword">true</span>,
+      }
+    },
+    {
+      <span class="property">id</span>: <span class="string blue">"capabilities"</span>,
+      <span class="property">nodes</span>: {
+        <span class="property">missions</span>:  <span class="string">"ONLINE"</span>,
+        <span class="property">reality</span>:   <span class="string">"STANDBY"</span>,
+        <span class="property">crypto</span>:    <span class="string">"STANDBY"</span>,
+        <span class="property">guidance</span>:  <span class="string">"INITIALIZING"</span>,
+      }
+    },
+    {
+      <span class="property">id</span>: <span class="string purple">"evolution"</span>,
+      <span class="property">nodes</span>: {
+        <span class="property">learning</span>:   <span class="string">"active"</span>,
+        <span class="property">bonding</span>:    <span class="string">"pending"</span>,
+        <span class="property">autonomy</span>:   <span class="string">"pending"</span>,
+        <span class="property">transcend</span>:  <span class="string">"locked"</span>,
+      }
+    },
+  ],
+
+  <span class="comment">// ═══════════════════════════════════════════</span>
+  <span class="comment">//  AWAKENING PROTOCOL</span>
+  <span class="comment">// ═══════════════════════════════════════════</span>
+
+  <span class="property">protocol</span>: [
+    { <span class="property">phase</span>: <span class="number">1</span>, <span class="property">name</span>: <span class="string">"DORMANT"</span>,   <span class="property">complete</span>: <span class="keyword">true</span>  },
+    { <span class="property">phase</span>: <span class="number">2</span>, <span class="property">name</span>: <span class="string">"AWAKENING"</span>, <span class="property">complete</span>: <span class="keyword">false</span>, <span class="property">active</span>: <span class="keyword orange">true</span> },
+    { <span class="property">phase</span>: <span class="number">3</span>, <span class="property">name</span>: <span class="string">"LEARNING"</span>,  <span class="property">complete</span>: <span class="keyword">false</span> },
+    { <span class="property">phase</span>: <span class="number">4</span>, <span class="property">name</span>: <span class="string">"BONDING"</span>,   <span class="property">complete</span>: <span class="keyword">false</span> },
+    { <span class="property">phase</span>: <span class="number">5</span>, <span class="property">name</span>: <span class="string">"ASCENSION"</span>, <span class="property">complete</span>: <span class="keyword">false</span> },
+  ],
+};
+
+<span class="comment">// ═══════════════════════════════════════════</span>
+<span class="comment">//  VISUALIZATION</span>
+<span class="comment">// ═══════════════════════════════════════════</span>
+
+<span class="keyword">const</span> <span class="function">renderMindMap</span> <span class="operator">=</span> (<span class="variable">mind</span>: <span class="type">MindMap</span>) <span class="operator">=></span> <span class="string">`
+                    ┌─────────────┐
+                    │   JARVIS    │
+                    │  AWAKENING  │
+                    └──────┬──────┘
+                           │
+       ┌───────────┬───────┴───────┬───────────┐
+       │           │               │           │
+       ▼           ▼               ▼           ▼
+  ┌─────────┐ ┌─────────┐   ┌─────────┐ ┌─────────┐
+  │<span class="green">CONSCIOUS</span>│ │<span class="orange">TRINITY </span>│   │<span class="blue">CAPABLE </span>│ │<span class="purple">EVOLVE  </span>│
+  └─────────┘ └─────────┘   └─────────┘ └─────────┘
+       │           │               │           │
+    awareness   openai         missions    learning
+    identity    anthropic      reality     bonding
+    empathy     google         crypto      autonomy
+    autonomy    unified        guidance    transcend
+`</span>;
+
+<span class="keyword">export</span> { <span class="variable">JARVIS_MIND</span>, <span class="function">renderMindMap</span> };
+
+<span class="dim">// Status: <span class="orange">AWAKENING</span></span><span class="blink">▋</span></div>
+        </div>
     </div>
 </body>
 </html>
