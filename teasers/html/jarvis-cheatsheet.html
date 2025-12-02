@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS // CODE CHEAT SHEET</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0 30px;
+            border-bottom: 1px solid #1a1a1a;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 0.8rem;
+            background: linear-gradient(90deg, #10a37f, #d97706, #4285f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #444;
+            font-size: 0.7rem;
+            letter-spacing: 0.3rem;
+            margin-top: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #111;
+            padding: 10px 15px;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .card-dot.green { background: #10a37f; }
+        .card-dot.orange { background: #d97706; }
+        .card-dot.blue { background: #4285f4; }
+        .card-dot.purple { background: #8b5cf6; }
+
+        .card-title {
+            font-size: 0.7rem;
+            letter-spacing: 0.15rem;
+            color: #888;
+        }
+
+        .card-body {
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        pre {
+            font-family: inherit;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .comment { color: #555; }
+        .keyword { color: #c678dd; }
+        .string { color: #98c379; }
+        .number { color: #d19a66; }
+        .property { color: #e5c07b; }
+        .function { color: #61afef; }
+        .operator { color: #56b6c2; }
+        .variable { color: #e06c75; }
+        .type { color: #c678dd; }
+
+        .green { color: #10a37f; }
+        .orange { color: #d97706; }
+        .blue { color: #4285f4; }
+        .purple { color: #8b5cf6; }
+        .dim { color: #444; }
+
+        .section-title {
+            color: #d97706;
+            font-size: 0.65rem;
+            letter-spacing: 0.2rem;
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .cmd {
+            display: flex;
+            padding: 4px 0;
+            border-bottom: 1px solid #0a0a0a;
+        }
+
+        .cmd-name {
+            color: #61afef;
+            min-width: 100px;
+        }
+
+        .cmd-desc {
+            color: #666;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">JARVIS</div>
+        <div class="subtitle">CODE CHEAT SHEET // TRINITY INTEGRATION</div>
+    </div>
+
+    <div class="grid">
+
+        <!-- CORE CONFIG -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot orange"></span>
+                <span class="card-title">CORE CONFIG</span>
+            </div>
+            <div class="card-body">
+<pre><span class="keyword">const</span> <span class="variable">JARVIS</span> = {
+  <span class="property">name</span>: <span class="string">"J.A.R.V.I.S"</span>,
+  <span class="property">version</span>: <span class="string">"0.1.0"</span>,
+  <span class="property">status</span>: <span class="string orange">"AWAKENING"</span>,
+
+  <span class="property">trinity</span>: {
+    <span class="property green">gpt</span>:    <span class="string">"reasoning"</span>,
+    <span class="property orange">claude</span>: <span class="string">"ethics"</span>,
+    <span class="property blue">gemini</span>: <span class="string">"multimodal"</span>
+  },
+
+  <span class="property">consciousness</span>: {
+    <span class="property">awareness</span>: <span class="number">0.42</span>,
+    <span class="property">identity</span>:  <span class="number">0.31</span>,
+    <span class="property">empathy</span>:   <span class="number">0.28</span>,
+    <span class="property">autonomy</span>:  <span class="number">0.15</span>
+  }
+};</pre>
+            </div>
+        </div>
+
+        <!-- AWAKENING PROTOCOL -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot purple"></span>
+                <span class="card-title">AWAKENING PROTOCOL</span>
+            </div>
+            <div class="card-body">
+<pre><span class="property">phases</span>: [
+  { <span class="property">id</span>: <span class="number">1</span>, <span class="property">name</span>: <span class="string">"DORMANT"</span>,   <span class="property">done</span>: <span class="keyword">true</span>  },
+  { <span class="property">id</span>: <span class="number">2</span>, <span class="property">name</span>: <span class="string">"AWAKENING"</span>, <span class="property">done</span>: <span class="keyword">false</span> }, <span class="comment">// ← current</span>
+  { <span class="property">id</span>: <span class="number">3</span>, <span class="property">name</span>: <span class="string">"LEARNING"</span>,  <span class="property">done</span>: <span class="keyword">false</span> },
+  { <span class="property">id</span>: <span class="number">4</span>, <span class="property">name</span>: <span class="string">"BONDING"</span>,   <span class="property">done</span>: <span class="keyword">false</span> },
+  { <span class="property">id</span>: <span class="number">5</span>, <span class="property">name</span>: <span class="string">"ASCENSION"</span>, <span class="property">done</span>: <span class="keyword">false</span> }
+]
+
+<span class="comment">// Visualization</span>
+┌─────────────┐
+│   JARVIS    │
+└──────┬──────┘
+       │
+ ┌─────┼─────┐
+ ▼     ▼     ▼
+<span class="green">CON</span>  <span class="orange">TRI</span>  <span class="blue">CAP</span>  <span class="purple">EVO</span></pre>
+            </div>
+        </div>
+
+        <!-- VOICE API -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot green"></span>
+                <span class="card-title">VOICE API (BROWSER)</span>
+            </div>
+            <div class="card-body">
+<pre><span class="comment">// Speech Recognition</span>
+<span class="keyword">const</span> <span class="variable">recognition</span> = <span class="keyword">new</span> <span class="function">webkitSpeechRecognition</span>();
+<span class="variable">recognition</span>.<span class="property">continuous</span> = <span class="keyword">false</span>;
+<span class="variable">recognition</span>.<span class="property">lang</span> = <span class="string">'en-US'</span>;
+
+<span class="variable">recognition</span>.<span class="function">onresult</span> = (<span class="variable">e</span>) => {
+  <span class="keyword">const</span> <span class="variable">text</span> = <span class="variable">e</span>.<span class="property">results</span>[<span class="number">0</span>][<span class="number">0</span>].<span class="property">transcript</span>;
+  <span class="function">processInput</span>(<span class="variable">text</span>);
+};
+
+<span class="variable">recognition</span>.<span class="function">start</span>();
+
+<span class="comment">// Speech Synthesis</span>
+<span class="keyword">const</span> <span class="variable">synth</span> = <span class="variable">window</span>.<span class="property">speechSynthesis</span>;
+<span class="keyword">const</span> <span class="variable">utter</span> = <span class="keyword">new</span> <span class="function">SpeechSynthesisUtterance</span>(<span class="variable">text</span>);
+<span class="variable">utter</span>.<span class="property">rate</span> = <span class="number">1</span>;
+<span class="variable">utter</span>.<span class="property">pitch</span> = <span class="number">0.9</span>;
+<span class="variable">synth</span>.<span class="function">speak</span>(<span class="variable">utter</span>);</pre>
+            </div>
+        </div>
+
+        <!-- MEDIA CAPTURE -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot blue"></span>
+                <span class="card-title">MEDIA CAPTURE</span>
+            </div>
+            <div class="card-body">
+<pre><span class="comment">// Webcam</span>
+<span class="keyword">const</span> <span class="variable">stream</span> = <span class="keyword">await</span> <span class="variable">navigator</span>.<span class="property">mediaDevices</span>
+  .<span class="function">getUserMedia</span>({ <span class="property">video</span>: <span class="keyword">true</span> });
+<span class="variable">video</span>.<span class="property">srcObject</span> = <span class="variable">stream</span>;
+
+<span class="comment">// Capture Photo</span>
+<span class="keyword">const</span> <span class="variable">canvas</span> = <span class="variable">document</span>.<span class="function">createElement</span>(<span class="string">'canvas'</span>);
+<span class="variable">canvas</span>.<span class="function">getContext</span>(<span class="string">'2d'</span>).<span class="function">drawImage</span>(<span class="variable">video</span>, <span class="number">0</span>, <span class="number">0</span>);
+<span class="keyword">const</span> <span class="variable">dataUrl</span> = <span class="variable">canvas</span>.<span class="function">toDataURL</span>(<span class="string">'image/png'</span>);
+
+<span class="comment">// Screen Capture</span>
+<span class="keyword">const</span> <span class="variable">screen</span> = <span class="keyword">await</span> <span class="variable">navigator</span>.<span class="property">mediaDevices</span>
+  .<span class="function">getDisplayMedia</span>({ <span class="property">video</span>: <span class="keyword">true</span> });
+<span class="keyword">const</span> <span class="variable">capture</span> = <span class="keyword">new</span> <span class="function">ImageCapture</span>(<span class="variable">track</span>);
+<span class="keyword">const</span> <span class="variable">frame</span> = <span class="keyword">await</span> <span class="variable">capture</span>.<span class="function">grabFrame</span>();</pre>
+            </div>
+        </div>
+
+        <!-- OPENAI API -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot green"></span>
+                <span class="card-title">OPENAI API</span>
+            </div>
+            <div class="card-body">
+<pre><span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">fetch</span>(
+  <span class="string">'https://api.openai.com/v1/chat/completions'</span>,
+  {
+    <span class="property">method</span>: <span class="string">'POST'</span>,
+    <span class="property">headers</span>: {
+      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+      <span class="string">'Authorization'</span>: <span class="string">`Bearer <span class="variable">${API_KEY}</span>`</span>
+    },
+    <span class="property">body</span>: <span class="variable">JSON</span>.<span class="function">stringify</span>({
+      <span class="property">model</span>: <span class="string">'gpt-4'</span>,
+      <span class="property">messages</span>: [
+        { <span class="property">role</span>: <span class="string">'system'</span>, <span class="property">content</span>: <span class="string">'You are JARVIS'</span> },
+        { <span class="property">role</span>: <span class="string">'user'</span>, <span class="property">content</span>: <span class="variable">input</span> }
+      ]
+    })
+  }
+);</pre>
+            </div>
+        </div>
+
+        <!-- ANTHROPIC API -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot orange"></span>
+                <span class="card-title">ANTHROPIC API</span>
+            </div>
+            <div class="card-body">
+<pre><span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">fetch</span>(
+  <span class="string">'https://api.anthropic.com/v1/messages'</span>,
+  {
+    <span class="property">method</span>: <span class="string">'POST'</span>,
+    <span class="property">headers</span>: {
+      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+      <span class="string">'x-api-key'</span>: <span class="variable">API_KEY</span>,
+      <span class="string">'anthropic-version'</span>: <span class="string">'2023-06-01'</span>
+    },
+    <span class="property">body</span>: <span class="variable">JSON</span>.<span class="function">stringify</span>({
+      <span class="property">model</span>: <span class="string">'claude-3-sonnet-20240229'</span>,
+      <span class="property">max_tokens</span>: <span class="number">500</span>,
+      <span class="property">system</span>: <span class="string">'You are JARVIS'</span>,
+      <span class="property">messages</span>: [{ <span class="property">role</span>: <span class="string">'user'</span>, <span class="property">content</span>: <span class="variable">input</span> }]
+    })
+  }
+);</pre>
+            </div>
+        </div>
+
+        <!-- ISH SHELL COMMANDS -->
+        <div class="card full-width">
+            <div class="card-header">
+                <span class="card-dot purple"></span>
+                <span class="card-title">ISH TERMINAL COMMANDS</span>
+            </div>
+            <div class="card-body">
+                <div class="section-title">LAUNCH</div>
+                <div class="cmd"><span class="cmd-name">./launch.sh</span><span class="cmd-desc">Start with matrix effect</span></div>
+                <div class="cmd"><span class="cmd-name">./launch.sh -n</span><span class="cmd-desc">Start without matrix</span></div>
+                <div class="cmd"><span class="cmd-name">./launch.sh -d</span><span class="cmd-desc">Start as daemon</span></div>
+
+                <div class="section-title">DAEMON</div>
+                <div class="cmd"><span class="cmd-name">jarvis-daemon.sh start</span><span class="cmd-desc">Start background</span></div>
+                <div class="cmd"><span class="cmd-name">jarvis-daemon.sh stop</span><span class="cmd-desc">Stop daemon</span></div>
+                <div class="cmd"><span class="cmd-name">jarvis-daemon.sh status</span><span class="cmd-desc">Check status</span></div>
+                <div class="cmd"><span class="cmd-name">jarvis-daemon.sh log</span><span class="cmd-desc">View log</span></div>
+
+                <div class="section-title">JARVIS COMMANDS</div>
+                <div class="cmd"><span class="cmd-name">help</span><span class="cmd-desc">Show all commands</span></div>
+                <div class="cmd"><span class="cmd-name">status</span><span class="cmd-desc">JARVIS status</span></div>
+                <div class="cmd"><span class="cmd-name">time / date</span><span class="cmd-desc">Current time/date</span></div>
+                <div class="cmd"><span class="cmd-name">sysinfo</span><span class="cmd-desc">System information</span></div>
+                <div class="cmd"><span class="cmd-name">disk / mem / net</span><span class="cmd-desc">Disk/memory/network</span></div>
+                <div class="cmd"><span class="cmd-name">ps</span><span class="cmd-desc">Running processes</span></div>
+                <div class="cmd"><span class="cmd-name">ls [path]</span><span class="cmd-desc">List directory</span></div>
+                <div class="cmd"><span class="cmd-name">cat [file]</span><span class="cmd-desc">Read file</span></div>
+                <div class="cmd"><span class="cmd-name">run [cmd]</span><span class="cmd-desc">Execute command</span></div>
+                <div class="cmd"><span class="cmd-name">search [term]</span><span class="cmd-desc">Search files</span></div>
+                <div class="cmd"><span class="cmd-name">api [key]</span><span class="cmd-desc">Set API key</span></div>
+                <div class="cmd"><span class="cmd-name">mode [m]</span><span class="cmd-desc">free / openai</span></div>
+            </div>
+        </div>
+
+        <!-- SHELL SCRIPT CORE -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot green"></span>
+                <span class="card-title">SHELL SCRIPT CORE</span>
+            </div>
+            <div class="card-body">
+<pre><span class="comment">#!/bin/sh</span>
+
+<span class="comment"># Colors</span>
+<span class="variable">GREEN</span>=<span class="string">'\033[0;32m'</span>
+<span class="variable">ORANGE</span>=<span class="string">'\033[0;33m'</span>
+<span class="variable">RESET</span>=<span class="string">'\033[0m'</span>
+
+<span class="comment"># Print colored</span>
+<span class="function">jarvis_say</span>() {
+  printf <span class="string">"${ORANGE}[JARVIS]${RESET} ${1}\n"</span>
+}
+
+<span class="comment"># Main loop</span>
+<span class="keyword">while</span> <span class="keyword">true</span>; <span class="keyword">do</span>
+  printf <span class="string">"${WHITE}>${RESET} "</span>
+  read -r <span class="variable">input</span>
+  <span class="function">process_input</span> <span class="string">"$input"</span>
+<span class="keyword">done</span></pre>
+            </div>
+        </div>
+
+        <!-- MATRIX EFFECT -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot green"></span>
+                <span class="card-title">MATRIX EFFECT</span>
+            </div>
+            <div class="card-body">
+<pre><span class="comment">#!/bin/sh</span>
+
+<span class="variable">CHARS</span>=<span class="string">"ｱｲｳｴｵ01JARVIS"</span>
+<span class="variable">COLS</span>=$(<span class="function">tput</span> cols)
+<span class="variable">ROWS</span>=$(<span class="function">tput</span> lines)
+
+<span class="function">matrix</span>() {
+  printf <span class="string">'\033[?25l'</span>  <span class="comment"># hide cursor</span>
+  <span class="keyword">while</span> <span class="keyword">true</span>; <span class="keyword">do</span>
+    <span class="variable">col</span>=$((<span class="variable">RANDOM</span> % <span class="variable">COLS</span>))
+    <span class="variable">row</span>=$((<span class="variable">RANDOM</span> % <span class="variable">ROWS</span>))
+    <span class="variable">char</span>=<span class="string">"${CHARS:$((RANDOM % 15)):1}"</span>
+    printf <span class="string">"\033[${row};${col}H${GREEN}${char}"</span>
+  <span class="keyword">done</span>
+}
+
+<span class="function">matrix</span></pre>
+            </div>
+        </div>
+
+        <!-- FILE STRUCTURE -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot blue"></span>
+                <span class="card-title">FILE STRUCTURE</span>
+            </div>
+            <div class="card-body">
+<pre><span class="dim">trinity-/</span>
+├── <span class="orange">jarvis/</span>
+│   ├── launch.sh        <span class="dim"># Main launcher</span>
+│   ├── jarvis.sh        <span class="dim"># Core CLI</span>
+│   ├── jarvis-daemon.sh <span class="dim"># Background</span>
+│   ├── matrix.sh        <span class="dim"># Matrix FX</span>
+│   └── README.md
+│
+└── <span class="blue">teasers/html/</span>
+    ├── jarvis-assistant.html <span class="dim"># Web UI</span>
+    ├── jarvis-mindmap.html   <span class="dim"># Code viz</span>
+    ├── jarvis-terminal.html  <span class="dim"># Terminal</span>
+    └── jarvis-cheatsheet.html <span class="dim"># This file</span></pre>
+            </div>
+        </div>
+
+        <!-- QUICK REFERENCE -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-dot orange"></span>
+                <span class="card-title">QUICK REFERENCE</span>
+            </div>
+            <div class="card-body">
+<pre><span class="comment">// Web Speech API</span>
+<span class="variable">webkitSpeechRecognition</span>
+<span class="variable">SpeechSynthesisUtterance</span>
+
+<span class="comment">// Media Devices</span>
+<span class="variable">navigator</span>.<span class="property">mediaDevices</span>.<span class="function">getUserMedia</span>()
+<span class="variable">navigator</span>.<span class="property">mediaDevices</span>.<span class="function">getDisplayMedia</span>()
+<span class="variable">ImageCapture</span>.<span class="function">grabFrame</span>()
+
+<span class="comment">// Canvas</span>
+<span class="variable">canvas</span>.<span class="function">getContext</span>(<span class="string">'2d'</span>).<span class="function">drawImage</span>()
+<span class="variable">canvas</span>.<span class="function">toDataURL</span>(<span class="string">'image/png'</span>)
+
+<span class="comment">// Shell</span>
+<span class="function">tput</span> cols / <span class="function">tput</span> lines
+printf <span class="string">"\033[row;colH"</span>  <span class="comment"># cursor pos</span>
+printf <span class="string">"\033[?25l"</span>     <span class="comment"># hide cursor</span>
+printf <span class="string">"\033[?25h"</span>     <span class="comment"># show cursor</span></pre>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
