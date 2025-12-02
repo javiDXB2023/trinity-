@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS // ASSISTANT</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            font-family: 'JetBrains Mono', monospace;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #1a1a1a;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 1rem;
+            background: linear-gradient(90deg, #10a37f, #d97706, #4285f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background: #333;
+            transition: all 0.3s;
+        }
+
+        .status-dot.active {
+            background: #10a37f;
+            box-shadow: 0 0 10px rgba(16, 163, 127, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.listening {
+            background: #d97706;
+            box-shadow: 0 0 10px rgba(217, 119, 6, 0.5);
+            animation: pulse 0.5s infinite;
+        }
+
+        .status-dot.speaking {
+            background: #4285f4;
+            box-shadow: 0 0 10px rgba(66, 133, 244, 0.5);
+            animation: pulse 0.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Settings Panel */
+        .settings {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .settings-title {
+            font-size: 0.7rem;
+            letter-spacing: 0.2rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .setting-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-label {
+            font-size: 0.75rem;
+            color: #888;
+            min-width: 80px;
+        }
+
+        select, input[type="text"], input[type="password"] {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            color: #e0e0e0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #d97706;
+        }
+
+        /* Main Interface */
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Chat Area */
+        .chat-container {
+            background: #000;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message-content {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            max-width: 80%;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .message.user .message-content {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .message.jarvis .message-content {
+            background: linear-gradient(135deg, rgba(16, 163, 127, 0.1), rgba(217, 119, 6, 0.1));
+            border: 1px solid #222;
+            color: #e0e0e0;
+        }
+
+        .message-label {
+            font-size: 0.65rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .message.jarvis .message-label {
+            color: #d97706;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 15px;
+            border-top: 1px solid #1a1a1a;
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-area input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Buttons */
+        .btn {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #e0e0e0;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: #222;
+            border-color: #444;
+        }
+
+        .btn.primary {
+            background: #d97706;
+            border-color: #d97706;
+            color: #000;
+        }
+
+        .btn.primary:hover {
+            background: #f59e0b;
+        }
+
+        .btn.active {
+            background: #10a37f;
+            border-color: #10a37f;
+            color: #000;
+        }
+
+        .btn.recording {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: #fff;
+            animation: pulse 0.5s infinite;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Side Panel */
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .panel-section {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .panel-title {
+            font-size: 0.65rem;
+            letter-spacing: 0.15rem;
+            color: #666;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        /* Action Buttons Grid */
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            color: #888;
+            padding: 15px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.65rem;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            background: #1a1a1a;
+            border-color: #333;
+            color: #e0e0e0;
+        }
+
+        .action-btn .icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Preview Area */
+        .preview-area {
+            background: #0a0a0a;
+            border: 1px dashed #333;
+            border-radius: 6px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .preview-area img, .preview-area video {
+            max-width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+        }
+
+        .preview-placeholder {
+            color: #333;
+            font-size: 0.7rem;
+        }
+
+        .preview-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.8);
+            border: none;
+            color: #888;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        /* Hidden inputs */
+        .hidden {
+            display: none;
+        }
+
+        /* Waveform */
+        .waveform {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 30px;
+            margin: 10px 0;
+        }
+
+        .waveform-bar {
+            width: 4px;
+            background: #d97706;
+            border-radius: 2px;
+            animation: wave 0.5s ease-in-out infinite;
+        }
+
+        .waveform-bar:nth-child(1) { animation-delay: 0s; height: 10px; }
+        .waveform-bar:nth-child(2) { animation-delay: 0.1s; height: 20px; }
+        .waveform-bar:nth-child(3) { animation-delay: 0.2s; height: 15px; }
+        .waveform-bar:nth-child(4) { animation-delay: 0.3s; height: 25px; }
+        .waveform-bar:nth-child(5) { animation-delay: 0.4s; height: 10px; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        .waveform.hidden {
+            display: none;
+        }
+
+        /* File list */
+        .file-list {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .file-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="logo">JARVIS</h1>
+            <p class="status">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">INITIALIZING...</span>
+            </p>
+        </header>
+
+        <!-- Settings -->
+        <div class="settings">
+            <div class="settings-title">// CONFIGURATION</div>
+            <div class="setting-row">
+                <span class="setting-label">Mode:</span>
+                <select id="aiMode">
+                    <option value="free">Free (Local Responses)</option>
+                    <option value="openai">OpenAI API</option>
+                    <option value="anthropic">Anthropic API</option>
+                </select>
+            </div>
+            <div class="setting-row" id="apiKeyRow" style="display: none;">
+                <span class="setting-label">API Key:</span>
+                <input type="password" id="apiKey" placeholder="Enter your API key...">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Voice:</span>
+                <select id="voiceSelect"></select>
+                <button class="btn" onclick="testVoice()">Test</button>
+            </div>
+        </div>
+
+        <div class="main">
+            <!-- Chat Area -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message jarvis">
+                        <div class="message-label">JARVIS</div>
+                        <div class="message-content">Hello. I am JARVIS, your personal assistant. How can I help you today?</div>
+                    </div>
+                </div>
+
+                <div class="waveform hidden" id="waveform">
+                    <div class="waveform-bar"></div>
+                    <div class="waveform-bar"></div>
+                    <div class="waveform-bar"></div>
+                    <div class="waveform-bar"></div>
+                    <div class="waveform-bar"></div>
+                </div>
+
+                <div class="input-area">
+                    <button class="btn" id="micBtn" onclick="toggleMic()">
+                        <span class="btn-icon">🎤</span>
+                    </button>
+                    <input type="text" id="textInput" placeholder="Type a message or use voice..." onkeypress="handleKeyPress(event)">
+                    <button class="btn primary" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="side-panel">
+                <!-- Actions -->
+                <div class="panel-section">
+                    <div class="panel-title">// ACTIONS</div>
+                    <div class="action-grid">
+                        <button class="action-btn" onclick="capturePhoto()">
+                            <span class="icon">📷</span>
+                            Photo
+                        </button>
+                        <button class="action-btn" onclick="captureScreen()">
+                            <span class="icon">🖥️</span>
+                            Screen
+                        </button>
+                        <button class="action-btn" onclick="uploadFile()">
+                            <span class="icon">📁</span>
+                            Upload
+                        </button>
+                        <button class="action-btn" onclick="toggleCamera()">
+                            <span class="icon">🎥</span>
+                            Camera
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div class="panel-section">
+                    <div class="panel-title">// PREVIEW</div>
+                    <div class="preview-area" id="previewArea">
+                        <video id="cameraPreview" autoplay muted style="display: none;"></video>
+                        <img id="imagePreview" style="display: none;">
+                        <span class="preview-placeholder" id="previewPlaceholder">No media</span>
+                        <button class="preview-close hidden" id="previewClose" onclick="clearPreview()">×</button>
+                    </div>
+                </div>
+
+                <!-- Attachments -->
+                <div class="panel-section">
+                    <div class="panel-title">// ATTACHMENTS</div>
+                    <div class="file-list" id="fileList">
+                        <div style="color: #444; font-size: 0.65rem;">No files attached</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden inputs -->
+    <input type="file" id="fileInput" class="hidden" onchange="handleFileUpload(event)" multiple>
+
+    <script>
+        // State
+        const state = {
+            isListening: false,
+            isSpeaking: false,
+            cameraStream: null,
+            attachments: [],
+            recognition: null,
+            synthesis: window.speechSynthesis,
+            selectedVoice: null,
+            apiKey: '',
+            aiMode: 'free'
+        };
+
+        // Free mode responses
+        const freeResponses = {
+            greetings: ["Hello! How can I assist you today?", "Greetings. I'm at your service.", "Hi there. What would you like me to help with?"],
+            help: ["I can help you with various tasks. Try asking me about the weather, time, or general questions.", "I'm here to assist. You can capture photos, share your screen, or just chat with me."],
+            time: () => `The current time is ${new Date().toLocaleTimeString()}.`,
+            date: () => `Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}.`,
+            photo: ["Photo captured successfully. I can see the image in the preview area.", "Image received. What would you like me to do with it?"],
+            screen: ["I can see your screen now. What would you like help with?", "Screen share active. I'm ready to assist."],
+            default: ["I understand. Is there anything specific you'd like me to help with?", "Interesting. Tell me more.", "I'm processing that. What else would you like to know?", "Acknowledged. How can I assist further?"]
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initSpeechRecognition();
+            initVoices();
+            initSettings();
+            updateStatus('active', 'ONLINE');
+        });
+
+        // Speech Recognition
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                state.recognition = new SpeechRecognition();
+                state.recognition.continuous = false;
+                state.recognition.interimResults = true;
+                state.recognition.lang = 'en-US';
+
+                state.recognition.onresult = (event) => {
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0].transcript)
+                        .join('');
+
+                    document.getElementById('textInput').value = transcript;
+
+                    if (event.results[0].isFinal) {
+                        sendMessage();
+                    }
+                };
+
+                state.recognition.onend = () => {
+                    if (state.isListening) {
+                        state.recognition.start();
+                    }
+                };
+
+                state.recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    stopListening();
+                };
+            }
+        }
+
+        // Voice synthesis
+        function initVoices() {
+            const loadVoices = () => {
+                const voices = state.synthesis.getVoices();
+                const select = document.getElementById('voiceSelect');
+                select.innerHTML = '';
+
+                voices.forEach((voice, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    if (voice.name.toLowerCase().includes('male') || voice.name.includes('Daniel') || voice.name.includes('James')) {
+                        option.selected = true;
+                        state.selectedVoice = voice;
+                    }
+                    select.appendChild(option);
+                });
+
+                if (!state.selectedVoice && voices.length > 0) {
+                    state.selectedVoice = voices[0];
+                }
+            };
+
+            loadVoices();
+            state.synthesis.onvoiceschanged = loadVoices;
+
+            document.getElementById('voiceSelect').onchange = (e) => {
+                state.selectedVoice = state.synthesis.getVoices()[e.target.value];
+            };
+        }
+
+        function initSettings() {
+            document.getElementById('aiMode').onchange = (e) => {
+                state.aiMode = e.target.value;
+                document.getElementById('apiKeyRow').style.display =
+                    e.target.value === 'free' ? 'none' : 'flex';
+            };
+
+            document.getElementById('apiKey').onchange = (e) => {
+                state.apiKey = e.target.value;
+            };
+        }
+
+        function testVoice() {
+            speak("Hello, I am JARVIS. My voice systems are operational.");
+        }
+
+        // Mic control
+        function toggleMic() {
+            if (state.isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        }
+
+        function startListening() {
+            if (!state.recognition) {
+                addMessage('jarvis', 'Speech recognition is not supported in your browser.');
+                return;
+            }
+            state.isListening = true;
+            state.recognition.start();
+            document.getElementById('micBtn').classList.add('recording');
+            document.getElementById('waveform').classList.remove('hidden');
+            updateStatus('listening', 'LISTENING...');
+        }
+
+        function stopListening() {
+            state.isListening = false;
+            if (state.recognition) {
+                state.recognition.stop();
+            }
+            document.getElementById('micBtn').classList.remove('recording');
+            document.getElementById('waveform').classList.add('hidden');
+            updateStatus('active', 'ONLINE');
+        }
+
+        // Send message
+        async function sendMessage() {
+            const input = document.getElementById('textInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            stopListening();
+            addMessage('user', text);
+            input.value = '';
+
+            updateStatus('speaking', 'PROCESSING...');
+
+            let response;
+            if (state.aiMode === 'free') {
+                response = getFreeResponse(text);
+            } else {
+                response = await getAIResponse(text);
+            }
+
+            addMessage('jarvis', response);
+            speak(response);
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Free responses
+        function getFreeResponse(text) {
+            const lower = text.toLowerCase();
+
+            if (lower.match(/hello|hi|hey|greetings/)) {
+                return randomChoice(freeResponses.greetings);
+            }
+            if (lower.match(/help|what can you do/)) {
+                return randomChoice(freeResponses.help);
+            }
+            if (lower.match(/time/)) {
+                return freeResponses.time();
+            }
+            if (lower.match(/date|day/)) {
+                return freeResponses.date();
+            }
+            if (lower.match(/photo|picture|image/)) {
+                return randomChoice(freeResponses.photo);
+            }
+            if (lower.match(/screen|share|display/)) {
+                return randomChoice(freeResponses.screen);
+            }
+
+            return randomChoice(freeResponses.default);
+        }
+
+        function randomChoice(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        // AI API Response
+        async function getAIResponse(text) {
+            if (!state.apiKey) {
+                return "Please enter your API key in the settings to use AI mode.";
+            }
+
+            try {
+                if (state.aiMode === 'openai') {
+                    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${state.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: 'gpt-4',
+                            messages: [
+                                { role: 'system', content: 'You are JARVIS, a helpful AI assistant. Be concise and professional.' },
+                                { role: 'user', content: text }
+                            ],
+                            max_tokens: 500
+                        })
+                    });
+                    const data = await response.json();
+                    return data.choices?.[0]?.message?.content || "I apologize, I couldn't process that request.";
+                }
+                else if (state.aiMode === 'anthropic') {
+                    const response = await fetch('https://api.anthropic.com/v1/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-api-key': state.apiKey,
+                            'anthropic-version': '2023-06-01'
+                        },
+                        body: JSON.stringify({
+                            model: 'claude-3-sonnet-20240229',
+                            max_tokens: 500,
+                            system: 'You are JARVIS, a helpful AI assistant. Be concise and professional.',
+                            messages: [{ role: 'user', content: text }]
+                        })
+                    });
+                    const data = await response.json();
+                    return data.content?.[0]?.text || "I apologize, I couldn't process that request.";
+                }
+            } catch (error) {
+                console.error('API Error:', error);
+                return "I encountered an error connecting to the AI service. Please check your API key and try again.";
+            }
+        }
+
+        // Speak
+        function speak(text) {
+            state.synthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+
+            if (state.selectedVoice) {
+                utterance.voice = state.selectedVoice;
+            }
+            utterance.rate = 1;
+            utterance.pitch = 0.9;
+
+            utterance.onstart = () => {
+                state.isSpeaking = true;
+                updateStatus('speaking', 'SPEAKING...');
+            };
+
+            utterance.onend = () => {
+                state.isSpeaking = false;
+                updateStatus('active', 'ONLINE');
+            };
+
+            state.synthesis.speak(utterance);
+        }
+
+        // Add message to chat
+        function addMessage(type, content) {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            div.innerHTML = `
+                <div class="message-label">${type === 'user' ? 'YOU' : 'JARVIS'}</div>
+                <div class="message-content">${content}</div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Update status
+        function updateStatus(status, text) {
+            const dot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+
+            dot.className = 'status-dot';
+            if (status) dot.classList.add(status);
+            statusText.textContent = text;
+        }
+
+        // Camera
+        async function toggleCamera() {
+            if (state.cameraStream) {
+                stopCamera();
+            } else {
+                await startCamera();
+            }
+        }
+
+        async function startCamera() {
+            try {
+                state.cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('cameraPreview');
+                video.srcObject = state.cameraStream;
+                video.style.display = 'block';
+                document.getElementById('previewPlaceholder').style.display = 'none';
+                document.getElementById('previewClose').classList.remove('hidden');
+            } catch (error) {
+                console.error('Camera error:', error);
+                addMessage('jarvis', 'Unable to access camera. Please check permissions.');
+            }
+        }
+
+        function stopCamera() {
+            if (state.cameraStream) {
+                state.cameraStream.getTracks().forEach(track => track.stop());
+                state.cameraStream = null;
+            }
+            document.getElementById('cameraPreview').style.display = 'none';
+        }
+
+        // Capture photo
+        async function capturePhoto() {
+            if (!state.cameraStream) {
+                await startCamera();
+                setTimeout(capturePhoto, 500);
+                return;
+            }
+
+            const video = document.getElementById('cameraPreview');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+
+            const dataUrl = canvas.toDataURL('image/png');
+            showImagePreview(dataUrl);
+            addAttachment('photo_' + Date.now() + '.png', dataUrl);
+            addMessage('jarvis', 'Photo captured successfully.');
+        }
+
+        // Screen capture
+        async function captureScreen() {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                const track = stream.getVideoTracks()[0];
+                const imageCapture = new ImageCapture(track);
+                const bitmap = await imageCapture.grabFrame();
+
+                const canvas = document.createElement('canvas');
+                canvas.width = bitmap.width;
+                canvas.height = bitmap.height;
+                canvas.getContext('2d').drawImage(bitmap, 0, 0);
+
+                const dataUrl = canvas.toDataURL('image/png');
+                showImagePreview(dataUrl);
+                addAttachment('screen_' + Date.now() + '.png', dataUrl);
+
+                track.stop();
+                addMessage('jarvis', 'Screen captured successfully.');
+            } catch (error) {
+                console.error('Screen capture error:', error);
+                addMessage('jarvis', 'Unable to capture screen. Please check permissions.');
+            }
+        }
+
+        // File upload
+        function uploadFile() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    addAttachment(file.name, e.target.result);
+                    if (file.type.startsWith('image/')) {
+                        showImagePreview(e.target.result);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+            addMessage('jarvis', `${files.length} file(s) uploaded successfully.`);
+        }
+
+        // Attachment handling
+        function addAttachment(name, data) {
+            state.attachments.push({ name, data });
+            updateAttachmentList();
+        }
+
+        function updateAttachmentList() {
+            const list = document.getElementById('fileList');
+            if (state.attachments.length === 0) {
+                list.innerHTML = '<div style="color: #444; font-size: 0.65rem;">No files attached</div>';
+                return;
+            }
+
+            list.innerHTML = state.attachments.map((file, index) => `
+                <div class="file-item">
+                    <span>${file.name.substring(0, 20)}${file.name.length > 20 ? '...' : ''}</span>
+                    <button onclick="removeAttachment(${index})" style="background:none;border:none;color:#666;cursor:pointer;">×</button>
+                </div>
+            `).join('');
+        }
+
+        function removeAttachment(index) {
+            state.attachments.splice(index, 1);
+            updateAttachmentList();
+        }
+
+        // Preview
+        function showImagePreview(dataUrl) {
+            const img = document.getElementById('imagePreview');
+            img.src = dataUrl;
+            img.style.display = 'block';
+            document.getElementById('previewPlaceholder').style.display = 'none';
+            document.getElementById('previewClose').classList.remove('hidden');
+        }
+
+        function clearPreview() {
+            stopCamera();
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('previewPlaceholder').style.display = 'block';
+            document.getElementById('previewClose').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
