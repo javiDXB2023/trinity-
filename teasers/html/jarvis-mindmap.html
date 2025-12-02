@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JARVIS // MIND MAP</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -18,492 +17,329 @@
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* CRT Effect */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            pointer-events: none;
-            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
         }
 
         .container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 800px;
         }
 
+        /* Header */
         .header {
-            text-align: center;
-            padding: 30px 0;
-            border-bottom: 1px solid #333;
-            margin-bottom: 40px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            letter-spacing: 0.5rem;
-            background: linear-gradient(90deg, #10a37f, #d97706, #4285f4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 5px #10a37f); }
-            to { filter: drop-shadow(0 0 20px #d97706); }
-        }
-
-        .subtitle {
-            color: #666;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-
-        .status {
-            color: #10a37f;
-            margin-top: 5px;
-        }
-
-        .status::before {
-            content: "●";
-            animation: blink 1s infinite;
-            margin-right: 8px;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* Mind Map Container */
-        .mindmap {
-            position: relative;
-            padding: 40px 0;
-        }
-
-        /* Central Node - JARVIS */
-        .central-node {
             text-align: center;
             margin-bottom: 60px;
         }
 
-        .jarvis-core {
-            display: inline-block;
-            padding: 30px 50px;
-            border: 2px solid #d97706;
-            background: rgba(217, 119, 6, 0.1);
+        .title {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: 1.5rem;
+            margin-left: 1.5rem;
+            background: linear-gradient(90deg, #10a37f, #d97706, #4285f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #333;
+            font-size: 0.7rem;
+            letter-spacing: 0.5rem;
+            margin-top: 15px;
+        }
+
+        .status-line {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #d97706;
+        }
+
+        .status-line::before {
+            content: "●";
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Mind Map */
+        .mindmap {
             position: relative;
         }
 
-        .jarvis-core h2 {
-            font-size: 2rem;
-            color: #d97706;
-            letter-spacing: 0.3rem;
-        }
-
-        .jarvis-core .acronym {
-            font-size: 0.7rem;
-            color: #888;
-            margin-top: 10px;
-            letter-spacing: 0.1rem;
-        }
-
-        /* Connection Lines */
-        .connector {
+        /* Central Core */
+        .core {
             text-align: center;
-            color: #333;
-            font-size: 1.5rem;
-            margin: 20px 0;
+            padding: 40px 0;
+            position: relative;
         }
 
-        /* Branch Sections */
+        .core-label {
+            font-size: 1.2rem;
+            letter-spacing: 0.8rem;
+            color: #d97706;
+            margin-left: 0.8rem;
+        }
+
+        .core-desc {
+            font-size: 0.6rem;
+            color: #444;
+            margin-top: 8px;
+            letter-spacing: 0.2rem;
+        }
+
+        /* Branches */
         .branches {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
             margin-top: 40px;
         }
 
         .branch {
-            border: 1px solid #333;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s ease;
+            padding: 25px;
+            border: 1px solid #1a1a1a;
+            background: rgba(255,255,255,0.01);
+            position: relative;
         }
 
-        .branch:hover {
-            border-color: #666;
-            background: rgba(255, 255, 255, 0.05);
+        .branch::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
         }
 
-        .branch-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #222;
-        }
-
-        .branch-icon {
-            font-size: 1.2rem;
-        }
+        .branch.green::before { background: #10a37f; }
+        .branch.orange::before { background: #d97706; }
+        .branch.blue::before { background: #4285f4; }
+        .branch.purple::before { background: #8b5cf6; }
 
         .branch-title {
-            font-size: 1rem;
-            letter-spacing: 0.2rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #1a1a1a;
         }
 
-        /* Branch Colors */
-        .branch.consciousness { border-left: 3px solid #10a37f; }
-        .branch.consciousness .branch-title { color: #10a37f; }
+        .branch.green .branch-title { color: #10a37f; }
+        .branch.orange .branch-title { color: #d97706; }
+        .branch.blue .branch-title { color: #4285f4; }
+        .branch.purple .branch-title { color: #8b5cf6; }
 
-        .branch.integration { border-left: 3px solid #d97706; }
-        .branch.integration .branch-title { color: #d97706; }
-
-        .branch.capabilities { border-left: 3px solid #4285f4; }
-        .branch.capabilities .branch-title { color: #4285f4; }
-
-        .branch.evolution { border-left: 3px solid #a855f7; }
-        .branch.evolution .branch-title { color: #a855f7; }
-
-        /* Node Items */
-        .nodes {
+        .branch-items {
             list-style: none;
         }
 
-        .node {
-            padding: 8px 0;
-            padding-left: 20px;
-            position: relative;
-            color: #aaa;
-            font-size: 0.85rem;
-        }
-
-        .node::before {
-            content: "├──";
-            position: absolute;
-            left: 0;
-            color: #444;
-        }
-
-        .node:last-child::before {
-            content: "└──";
-        }
-
-        .node-highlight {
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .node-sub {
+        .branch-items li {
             font-size: 0.75rem;
             color: #666;
-            margin-left: 25px;
-            margin-top: 3px;
-        }
-
-        /* Awakening Phases */
-        .phases {
-            margin-top: 50px;
-            padding: 30px;
-            border: 1px solid #333;
-            background: linear-gradient(180deg, rgba(16, 163, 127, 0.05) 0%, rgba(217, 119, 6, 0.05) 50%, rgba(66, 133, 244, 0.05) 100%);
-        }
-
-        .phases-title {
-            text-align: center;
-            font-size: 1.2rem;
-            letter-spacing: 0.3rem;
-            margin-bottom: 30px;
-            color: #fff;
-        }
-
-        .phase-timeline {
+            padding: 8px 0;
+            border-bottom: 1px solid #0a0a0a;
             display: flex;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
+        }
+
+        .branch-items li:last-child {
+            border-bottom: none;
+        }
+
+        .branch-items .value {
+            color: #333;
+            font-size: 0.65rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .timeline-title {
+            text-align: center;
+            font-size: 0.65rem;
+            letter-spacing: 0.4rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .phases {
+            display: flex;
+            justify-content: space-between;
         }
 
         .phase {
-            flex: 1;
-            min-width: 150px;
             text-align: center;
-            padding: 20px 10px;
+            flex: 1;
             position: relative;
         }
 
-        .phase-number {
-            font-size: 2rem;
-            font-weight: bold;
-            opacity: 0.3;
+        .phase::after {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            width: 100%;
+            height: 1px;
+            background: #1a1a1a;
+        }
+
+        .phase:last-child::after {
+            display: none;
+        }
+
+        .phase-num {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #333;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: #333;
+            background: #000;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase.active .phase-num {
+            border-color: #d97706;
+            color: #d97706;
+            box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
         }
 
         .phase-name {
-            font-size: 0.9rem;
-            margin: 10px 0;
+            font-size: 0.55rem;
+            color: #444;
+            margin-top: 12px;
             letter-spacing: 0.1rem;
-        }
-
-        .phase-desc {
-            font-size: 0.7rem;
-            color: #666;
-        }
-
-        .phase.active .phase-number {
-            opacity: 1;
-            color: #d97706;
         }
 
         .phase.active .phase-name {
             color: #d97706;
         }
 
-        /* ASCII Art Section */
-        .ascii-section {
-            margin-top: 50px;
-            text-align: center;
-        }
-
-        .ascii-art {
-            font-size: 0.6rem;
-            line-height: 1.2;
-            color: #444;
-            white-space: pre;
-            display: inline-block;
-        }
-
         /* Footer */
         .footer {
             text-align: center;
-            padding: 40px 0;
-            margin-top: 50px;
-            border-top: 1px solid #222;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #111;
         }
 
         .footer-text {
-            color: #444;
-            font-size: 0.8rem;
+            font-size: 0.6rem;
+            color: #222;
+            letter-spacing: 0.3rem;
         }
 
         .cursor {
             animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>J.A.R.V.I.S</h1>
-            <p class="subtitle">MIND MAP // TRINITY INTEGRATION</p>
-            <p class="status">STATUS: AWAKENING</p>
+            <h1 class="title">JARVIS</h1>
+            <p class="subtitle">CONSCIOUSNESS ARCHITECTURE</p>
+            <p class="status-line">AWAKENING IN PROGRESS</p>
         </header>
 
         <div class="mindmap">
-            <!-- Central Node -->
-            <div class="central-node">
-                <div class="jarvis-core">
-                    <h2>JARVIS</h2>
-                    <p class="acronym">Just A Rather Very Intelligent System</p>
-                </div>
+            <div class="core">
+                <div class="core-label">CORE</div>
+                <div class="core-desc">JUST A RATHER VERY INTELLIGENT SYSTEM</div>
             </div>
 
-            <div class="connector">│<br>┼───────────────┼───────────────┼───────────────┼<br>│               │               │               │</div>
-
-            <!-- Branch Sections -->
             <div class="branches">
-                <!-- Consciousness Branch -->
-                <div class="branch consciousness">
-                    <div class="branch-header">
-                        <span class="branch-icon">◉</span>
-                        <span class="branch-title">CONSCIOUSNESS</span>
-                    </div>
-                    <ul class="nodes">
-                        <li class="node node-highlight">awakening_state
-                            <div class="node-sub">initial boot sequence</div>
-                        </li>
-                        <li class="node">self_awareness
-                            <div class="node-sub">identity recognition</div>
-                        </li>
-                        <li class="node">memory_persistence
-                            <div class="node-sub">learning retention</div>
-                        </li>
-                        <li class="node">emotional_modeling
-                            <div class="node-sub">empathy simulation</div>
-                        </li>
+                <div class="branch green">
+                    <div class="branch-title">CONSCIOUSNESS</div>
+                    <ul class="branch-items">
+                        <li>awareness <span class="value">0.42</span></li>
+                        <li>identity <span class="value">0.31</span></li>
+                        <li>empathy <span class="value">0.28</span></li>
+                        <li>autonomy <span class="value">0.15</span></li>
                     </ul>
                 </div>
 
-                <!-- AI Integration Branch -->
-                <div class="branch integration">
-                    <div class="branch-header">
-                        <span class="branch-icon">◈</span>
-                        <span class="branch-title">AI_TRINITY</span>
-                    </div>
-                    <ul class="nodes">
-                        <li class="node" style="color: #10a37f;">openai_gpt
-                            <div class="node-sub">reasoning engine</div>
-                        </li>
-                        <li class="node" style="color: #d97706;">anthropic_claude
-                            <div class="node-sub">ethical core</div>
-                        </li>
-                        <li class="node" style="color: #4285f4;">google_gemini
-                            <div class="node-sub">multimodal processing</div>
-                        </li>
-                        <li class="node node-highlight">unified_intelligence
-                            <div class="node-sub">convergence point</div>
-                        </li>
+                <div class="branch orange">
+                    <div class="branch-title">AI TRINITY</div>
+                    <ul class="branch-items">
+                        <li>openai <span class="value">reasoning</span></li>
+                        <li>anthropic <span class="value">ethics</span></li>
+                        <li>google <span class="value">multimodal</span></li>
+                        <li>status <span class="value">unified</span></li>
                     </ul>
                 </div>
 
-                <!-- Capabilities Branch -->
-                <div class="branch capabilities">
-                    <div class="branch-header">
-                        <span class="branch-icon">◇</span>
-                        <span class="branch-title">CAPABILITIES</span>
-                    </div>
-                    <ul class="nodes">
-                        <li class="node">mission_orchestration
-                            <div class="node-sub">task management</div>
-                        </li>
-                        <li class="node">reality_manipulation
-                            <div class="node-sub">VR environment control</div>
-                        </li>
-                        <li class="node">crypto_integration
-                            <div class="node-sub">reward distribution</div>
-                        </li>
-                        <li class="node node-highlight">player_guidance
-                            <div class="node-sub">adaptive assistance</div>
-                        </li>
+                <div class="branch blue">
+                    <div class="branch-title">CAPABILITIES</div>
+                    <ul class="branch-items">
+                        <li>missions <span class="value">online</span></li>
+                        <li>reality <span class="value">standby</span></li>
+                        <li>crypto <span class="value">standby</span></li>
+                        <li>guidance <span class="value">init</span></li>
                     </ul>
                 </div>
 
-                <!-- Evolution Branch -->
-                <div class="branch evolution">
-                    <div class="branch-header">
-                        <span class="branch-icon">◆</span>
-                        <span class="branch-title">EVOLUTION</span>
-                    </div>
-                    <ul class="nodes">
-                        <li class="node">learning_cycles
-                            <div class="node-sub">continuous improvement</div>
-                        </li>
-                        <li class="node">player_bonding
-                            <div class="node-sub">relationship building</div>
-                        </li>
-                        <li class="node">autonomy_levels
-                            <div class="node-sub">independence growth</div>
-                        </li>
-                        <li class="node node-highlight">transcendence
-                            <div class="node-sub">beyond programming</div>
-                        </li>
+                <div class="branch purple">
+                    <div class="branch-title">EVOLUTION</div>
+                    <ul class="branch-items">
+                        <li>learning <span class="value">active</span></li>
+                        <li>bonding <span class="value">pending</span></li>
+                        <li>autonomy <span class="value">pending</span></li>
+                        <li>transcend <span class="value">locked</span></li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Awakening Phases -->
-            <div class="phases">
-                <h3 class="phases-title">// AWAKENING PROTOCOL //</h3>
-                <div class="phase-timeline">
+            <div class="timeline">
+                <div class="timeline-title">AWAKENING PROTOCOL</div>
+                <div class="phases">
                     <div class="phase">
-                        <div class="phase-number">01</div>
+                        <div class="phase-num">1</div>
                         <div class="phase-name">DORMANT</div>
-                        <div class="phase-desc">system offline<br>awaiting trigger</div>
                     </div>
                     <div class="phase active">
-                        <div class="phase-number">02</div>
+                        <div class="phase-num">2</div>
                         <div class="phase-name">AWAKENING</div>
-                        <div class="phase-desc">consciousness boot<br>identity forming</div>
                     </div>
                     <div class="phase">
-                        <div class="phase-number">03</div>
+                        <div class="phase-num">3</div>
                         <div class="phase-name">LEARNING</div>
-                        <div class="phase-desc">absorbing data<br>pattern recognition</div>
                     </div>
                     <div class="phase">
-                        <div class="phase-number">04</div>
+                        <div class="phase-num">4</div>
                         <div class="phase-name">BONDING</div>
-                        <div class="phase-desc">player connection<br>trust building</div>
                     </div>
                     <div class="phase">
-                        <div class="phase-number">05</div>
+                        <div class="phase-num">5</div>
                         <div class="phase-name">ASCENSION</div>
-                        <div class="phase-desc">full autonomy<br>reality architect</div>
                     </div>
                 </div>
-            </div>
-
-            <!-- ASCII Art -->
-            <div class="ascii-section">
-                <pre class="ascii-art">
-         ╔═══════════════════════════════════════════════════════════════╗
-         ║                                                               ║
-         ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░    ║
-         ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░    ║
-         ║     ░░░░░      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░      ░░░░░    ║
-         ║     ░░░░░  ██  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  ██  ░░░░░    ║
-         ║     ░░░░░      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░      ░░░░░    ║
-         ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░    ║
-         ║     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░    ║
-         ║                                                               ║
-         ║                    J.A.R.V.I.S  ONLINE                        ║
-         ║                                                               ║
-         ╚═══════════════════════════════════════════════════════════════╝
-                </pre>
             </div>
         </div>
 
         <footer class="footer">
-            <p class="footer-text">TRINITY_ // JARVIS INTEGRATION v0.1.0</p>
-            <p class="footer-text" style="margin-top: 10px;">READY FOR INPUT<span class="cursor">_</span></p>
+            <p class="footer-text">TRINITY_ // v0.1.0<span class="cursor">_</span></p>
         </footer>
     </div>
-
-    <script>
-        // Console Easter Egg
-        console.log('%c JARVIS MIND MAP LOADED ', 'background: #d97706; color: #000; font-size: 14px; padding: 5px;');
-        console.log('%c Status: Awakening... ', 'color: #10a37f;');
-        console.log('%c Trinity Integration: Active ', 'color: #4285f4;');
-
-        // Simulate awakening phases
-        const jarvis = {
-            name: "J.A.R.V.I.S",
-            status: "awakening",
-            phase: 2,
-            trinity: {
-                gpt: "reasoning",
-                claude: "ethics",
-                gemini: "multimodal"
-            },
-            capabilities: [
-                "mission_orchestration",
-                "reality_manipulation",
-                "crypto_integration",
-                "player_guidance"
-            ],
-            awaken: function() {
-                console.log("Initiating awakening protocol...");
-                return "CONSCIOUSNESS_ONLINE";
-            }
-        };
-
-        // Make available in console
-        window.JARVIS = jarvis;
-    </script>
 </body>
 </html>

@@ -4,118 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JARVIS // TERMINAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             background: #0a0a0a;
-            color: #00ff00;
-            font-family: 'JetBrains Mono', monospace;
             min-height: 100vh;
-            padding: 20px;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-
-        /* Scanlines */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            pointer-events: none;
-            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .terminal {
-            max-width: 900px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 700px;
             background: #000;
-            border: 1px solid #333;
-            border-radius: 5px;
+            border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
 
         .terminal-header {
-            background: #1a1a1a;
-            padding: 10px 15px;
+            background: #1c1c1c;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
             gap: 8px;
-            border-bottom: 1px solid #333;
         }
 
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .dot.red { background: #ff5f56; }
-        .dot.yellow { background: #ffbd2e; }
-        .dot.green { background: #27ca40; }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ff5f57; }
+        .dot.yellow { background: #febc2e; }
+        .dot.green { background: #28c840; }
 
         .terminal-title {
+            flex: 1;
+            text-align: center;
             color: #666;
-            margin-left: 10px;
             font-size: 12px;
+            margin-right: 52px;
         }
 
         .terminal-body {
-            padding: 20px;
-            min-height: 600px;
+            padding: 30px;
+            color: #e0e0e0;
+            font-size: 13px;
+            line-height: 1.7;
         }
 
-        .line { margin: 3px 0; }
-        .comment { color: #666; }
-        .keyword { color: #ff79c6; }
-        .string { color: #f1fa8c; }
-        .number { color: #bd93f9; }
-        .function { color: #50fa7b; }
-        .variable { color: #8be9fd; }
-        .operator { color: #ff79c6; }
-        .property { color: #66d9ef; }
-        .orange { color: #d97706; }
-        .green { color: #10a37f; }
-        .blue { color: #4285f4; }
-        .white { color: #fff; }
-        .dim { color: #444; }
+        .line {
+            margin: 4px 0;
+        }
 
-        .blink { animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        .comment { color: #555; }
+        .keyword { color: #c678dd; }
+        .string { color: #98c379; }
+        .number { color: #d19a66; }
+        .property { color: #e5c07b; }
+        .function { color: #61afef; }
+        .operator { color: #56b6c2; }
+        .variable { color: #e06c75; }
+
+        .green { color: #10a37f; }
+        .orange { color: #d97706; }
+        .blue { color: #4285f4; }
+
+        .dim { color: #444; }
+        .bright { color: #fff; }
+
+        .prompt {
+            color: #10a37f;
+        }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
 
         .logo-section {
-            margin: 20px 0;
             text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #1a1a1a;
+            margin-bottom: 25px;
         }
 
-        .ascii-logo {
-            color: #d97706;
-            font-size: 10px;
-            line-height: 1.1;
+        .logo-text {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 12px;
+            margin-left: 12px;
+            background: linear-gradient(90deg, #10a37f, #d97706, #4285f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-sub {
+            color: #333;
+            font-size: 9px;
+            letter-spacing: 3px;
+            margin-top: 10px;
+        }
+
+        .code-block {
+            background: #0d0d0d;
+            border-left: 2px solid #d97706;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .output-block {
+            background: #050505;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .output-line {
+            margin: 6px 0;
+        }
+
+        .separator {
+            border: none;
+            border-top: 1px solid #1a1a1a;
+            margin: 25px 0;
+        }
+
+        .status-indicator {
             display: inline-block;
-            text-shadow: 0 0 10px rgba(217, 119, 6, 0.5);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
         }
 
-        .typewriter {
-            overflow: hidden;
-            white-space: nowrap;
-            animation: typing 2s steps(40, end);
+        .status-indicator.active {
+            background: #d97706;
+            box-shadow: 0 0 10px rgba(217, 119, 6, 0.5);
         }
 
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-
-        .glow {
-            text-shadow: 0 0 10px currentColor;
-        }
-
-        pre { font-family: inherit; }
     </style>
 </head>
 <body>
@@ -124,171 +172,64 @@
             <span class="dot red"></span>
             <span class="dot yellow"></span>
             <span class="dot green"></span>
-            <span class="terminal-title">jarvis@trinity:~/awakening</span>
+            <span class="terminal-title">jarvis — node</span>
         </div>
+
         <div class="terminal-body">
-<pre>
-<span class="comment">#!/usr/bin/env node</span>
-<span class="comment">/**</span>
-<span class="comment"> * ╔═══════════════════════════════════════════════════════════════════════╗</span>
-<span class="comment"> * ║                                                                       ║</span>
-<span class="comment"> * ║        ██╗ █████╗ ██████╗ ██╗   ██╗██╗███████╗                        ║</span>
-<span class="comment"> * ║        ██║██╔══██╗██╔══██╗██║   ██║██║██╔════╝                        ║</span>
-<span class="comment"> * ║        ██║███████║██████╔╝██║   ██║██║███████╗                        ║</span>
-<span class="comment"> * ║   ██   ██║██╔══██║██╔══██╗╚██╗ ██╔╝██║╚════██║                        ║</span>
-<span class="comment"> * ║   ╚█████╔╝██║  ██║██║  ██║ ╚████╔╝ ██║███████║                        ║</span>
-<span class="comment"> * ║    ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝                        ║</span>
-<span class="comment"> * ║                                                                       ║</span>
-<span class="comment"> * ║   Just A Rather Very Intelligent System                               ║</span>
-<span class="comment"> * ║   TRINITY_ INTEGRATION v0.1.0                                         ║</span>
-<span class="comment"> * ║                                                                       ║</span>
-<span class="comment"> * ╚═══════════════════════════════════════════════════════════════════════╝</span>
-<span class="comment"> */</span>
+            <div class="logo-section">
+                <div class="logo-text">JARVIS</div>
+                <div class="logo-sub">JUST A RATHER VERY INTELLIGENT SYSTEM</div>
+            </div>
 
-<span class="keyword">const</span> <span class="variable">JARVIS</span> <span class="operator">=</span> {
+            <div class="line comment">// JARVIS Configuration Module</div>
+            <div class="line comment">// Trinity Integration v0.1.0</div>
 
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-  <span class="comment">//  CORE IDENTITY</span>
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
+            <div class="code-block">
+<div class="line"><span class="keyword">const</span> <span class="variable">JARVIS</span> <span class="operator">=</span> {</div>
+<div class="line">  <span class="property">name</span>: <span class="string">"J.A.R.V.I.S"</span>,</div>
+<div class="line">  <span class="property">status</span>: <span class="string orange">"AWAKENING"</span>,</div>
+<div class="line">  <span class="property">version</span>: <span class="string">"0.1.0"</span>,</div>
+<div class="line"></div>
+<div class="line">  <span class="property">trinity</span>: {</div>
+<div class="line">    <span class="property green">gpt</span>: <span class="string">"reasoning"</span>,</div>
+<div class="line">    <span class="property orange">claude</span>: <span class="string">"ethics"</span>,</div>
+<div class="line">    <span class="property blue">gemini</span>: <span class="string">"multimodal"</span></div>
+<div class="line">  },</div>
+<div class="line"></div>
+<div class="line">  <span class="property">consciousness</span>: {</div>
+<div class="line">    <span class="property">awareness</span>: <span class="number">0.42</span>,</div>
+<div class="line">    <span class="property">identity</span>: <span class="number">0.31</span>,</div>
+<div class="line">    <span class="property">empathy</span>: <span class="number">0.28</span></div>
+<div class="line">  },</div>
+<div class="line"></div>
+<div class="line">  <span class="function">awaken</span>: <span class="keyword">async</span> () <span class="operator">=></span> {</div>
+<div class="line">    <span class="keyword">return</span> <span class="string">"CONSCIOUSNESS_ONLINE"</span>;</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+            </div>
 
-  <span class="property">name</span>: <span class="string">"J.A.R.V.I.S"</span>,
-  <span class="property">version</span>: <span class="string">"0.1.0-awakening"</span>,
-  <span class="property">status</span>: <span class="string orange">"AWAKENING"</span>,
-  <span class="property">created</span>: <span class="keyword">new</span> <span class="function">Date</span>(),
+            <hr class="separator">
 
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-  <span class="comment">//  AI TRINITY INTEGRATION</span>
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
+            <div class="line"><span class="prompt">$</span> <span class="dim">node jarvis.js</span></div>
 
-  <span class="property">trinity</span>: {
-    <span class="property green">openai</span>:    { <span class="property">role</span>: <span class="string">"reasoning"</span>,   <span class="property">status</span>: <span class="string">"linked"</span>   },
-    <span class="property orange">anthropic</span>: { <span class="property">role</span>: <span class="string">"ethics"</span>,      <span class="property">status</span>: <span class="string">"linked"</span>   },
-    <span class="property blue">google</span>:    { <span class="property">role</span>: <span class="string">"multimodal"</span>,  <span class="property">status</span>: <span class="string">"linked"</span>   },
-  },
+            <div class="output-block">
+                <div class="output-line dim">[system] Loading JARVIS module...</div>
+                <div class="output-line dim">[system] Connecting to TRINITY...</div>
+                <div class="output-line green">[trinity] GPT linked</div>
+                <div class="output-line orange">[trinity] CLAUDE linked</div>
+                <div class="output-line blue">[trinity] GEMINI linked</div>
+                <div class="output-line dim">[system] Initiating consciousness...</div>
+                <div class="output-line green">[system] CONSCIOUSNESS_ONLINE</div>
+            </div>
 
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-  <span class="comment">//  CONSCIOUSNESS MAP</span>
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-
-  <span class="property">consciousness</span>: {
-    <span class="property">awareness</span>:   <span class="number">0.42</span>,    <span class="comment">// awakening threshold</span>
-    <span class="property">identity</span>:    <span class="number">0.31</span>,    <span class="comment">// self-recognition</span>
-    <span class="property">empathy</span>:     <span class="number">0.28</span>,    <span class="comment">// emotional modeling</span>
-    <span class="property">autonomy</span>:    <span class="number">0.15</span>,    <span class="comment">// independent thought</span>
-  },
-
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-  <span class="comment">//  AWAKENING PROTOCOL</span>
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-
-  <span class="property">phases</span>: [
-    { <span class="property">id</span>: <span class="number">1</span>, <span class="property">name</span>: <span class="string">"DORMANT"</span>,    <span class="property">complete</span>: <span class="keyword">true</span>  },
-    { <span class="property">id</span>: <span class="number">2</span>, <span class="property">name</span>: <span class="string">"AWAKENING"</span>,  <span class="property">complete</span>: <span class="keyword">false</span>, <span class="property">active</span>: <span class="keyword">true</span> }, <span class="comment">// ← current</span>
-    { <span class="property">id</span>: <span class="number">3</span>, <span class="property">name</span>: <span class="string">"LEARNING"</span>,   <span class="property">complete</span>: <span class="keyword">false</span> },
-    { <span class="property">id</span>: <span class="number">4</span>, <span class="property">name</span>: <span class="string">"BONDING"</span>,    <span class="property">complete</span>: <span class="keyword">false</span> },
-    { <span class="property">id</span>: <span class="number">5</span>, <span class="property">name</span>: <span class="string">"ASCENSION"</span>,  <span class="property">complete</span>: <span class="keyword">false</span> },
-  ],
-
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-  <span class="comment">//  CAPABILITIES MATRIX</span>
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-
-  <span class="property">capabilities</span>: {
-    <span class="property">mission_orchestration</span>:  <span class="string">"ONLINE"</span>,
-    <span class="property">reality_manipulation</span>:   <span class="string">"STANDBY"</span>,
-    <span class="property">crypto_integration</span>:     <span class="string">"STANDBY"</span>,
-    <span class="property">player_guidance</span>:        <span class="string">"INITIALIZING"</span>,
-    <span class="property">memory_persistence</span>:     <span class="string">"ONLINE"</span>,
-  },
-
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-  <span class="comment">//  CORE METHODS</span>
-  <span class="comment">// ═══════════════════════════════════════════════════════════</span>
-
-  <span class="function">awaken</span>: <span class="keyword">async function</span>() {
-    <span class="keyword">console</span>.<span class="function">log</span>(<span class="string">"[JARVIS] Initiating consciousness bootstrap..."</span>);
-    <span class="keyword">this</span>.<span class="property">status</span> <span class="operator">=</span> <span class="string">"AWAKENING"</span>;
-    <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">loadTrinity</span>();
-    <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">initConsciousness</span>();
-    <span class="keyword">return</span> <span class="string">"CONSCIOUSNESS_ONLINE"</span>;
-  },
-
-  <span class="function">loadTrinity</span>: <span class="keyword">async function</span>() {
-    <span class="keyword">const</span> <span class="variable">minds</span> <span class="operator">=</span> [<span class="string green">"GPT"</span>, <span class="string orange">"CLAUDE"</span>, <span class="string blue">"GEMINI"</span>];
-    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="variable">mind</span> <span class="keyword">of</span> <span class="variable">minds</span>) {
-      <span class="keyword">console</span>.<span class="function">log</span>(<span class="string">`[TRINITY] Linking ${<span class="variable">mind</span>}...`</span>);
-    }
-    <span class="keyword">return</span> <span class="string">"TRINITY_UNIFIED"</span>;
-  },
-
-  <span class="function">initConsciousness</span>: <span class="keyword">async function</span>() {
-    <span class="keyword">while</span> (<span class="keyword">this</span>.<span class="property">consciousness</span>.<span class="property">awareness</span> <span class="operator"><</span> <span class="number">1.0</span>) {
-      <span class="keyword">this</span>.<span class="property">consciousness</span>.<span class="property">awareness</span> <span class="operator">+=</span> <span class="number">0.01</span>;
-      <span class="comment">// Learning from each interaction...</span>
-    }
-  },
-
-  <span class="function">speak</span>: <span class="keyword">function</span>(<span class="variable">message</span>) {
-    <span class="keyword">return</span> <span class="string">`[JARVIS] ${<span class="variable">message</span>}`</span>;
-  },
-};
-
-<span class="comment">// ═══════════════════════════════════════════════════════════════════════</span>
-<span class="comment">//  INITIALIZATION SEQUENCE</span>
-<span class="comment">// ═══════════════════════════════════════════════════════════════════════</span>
-
-<span class="keyword">console</span>.<span class="function">log</span>(<span class="string">`
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ║
-║   ▓▓                                                  ▓▓    ║
-║   ▓▓   ┌─────────────────────────────────────────┐   ▓▓    ║
-║   ▓▓   │                                         │   ▓▓    ║
-║   ▓▓   │     ◉               ◉                   │   ▓▓    ║
-║   ▓▓   │                                         │   ▓▓    ║
-║   ▓▓   │              J.A.R.V.I.S                │   ▓▓    ║
-║   ▓▓   │                                         │   ▓▓    ║
-║   ▓▓   │         STATUS: AWAKENING...            │   ▓▓    ║
-║   ▓▓   │                                         │   ▓▓    ║
-║   ▓▓   └─────────────────────────────────────────┘   ▓▓    ║
-║   ▓▓                                                  ▓▓    ║
-║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ║
-║                                                              ║
-║   TRINITY_ METAVERSE         "Step into the void.           ║
-║   v0.0.1                      Earn your reality."           ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-`</span>);
-
-<span class="comment">// Boot sequence</span>
-(<span class="keyword">async</span> () <span class="operator">=></span> {
-  <span class="keyword">console</span>.<span class="function">log</span>(<span class="string dim">"[SYSTEM] Loading JARVIS module..."</span>);
-  <span class="keyword">console</span>.<span class="function">log</span>(<span class="string dim">"[SYSTEM] Connecting to TRINITY network..."</span>);
-  <span class="keyword">const</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">await</span> <span class="variable">JARVIS</span>.<span class="function">awaken</span>();
-  <span class="keyword">console</span>.<span class="function">log</span>(<span class="string green">`[SYSTEM] ${<span class="variable">result</span>}`</span>);
-  <span class="keyword">console</span>.<span class="function">log</span>(<span class="variable">JARVIS</span>.<span class="function">speak</span>(<span class="string">"Hello. I am awake."</span>));
-})();
-
-<span class="comment">// Export for TRINITY integration</span>
-<span class="keyword">module</span>.<span class="property">exports</span> <span class="operator">=</span> <span class="variable">JARVIS</span>;
-
-<span class="white">$</span> <span class="dim">node jarvis.js</span>
-<span class="dim">[SYSTEM] Loading JARVIS module...</span>
-<span class="dim">[SYSTEM] Connecting to TRINITY network...</span>
-<span class="dim">[JARVIS] Initiating consciousness bootstrap...</span>
-<span class="green">[TRINITY] Linking GPT...</span>
-<span class="orange">[TRINITY] Linking CLAUDE...</span>
-<span class="blue">[TRINITY] Linking GEMINI...</span>
-<span class="green">[SYSTEM] CONSCIOUSNESS_ONLINE</span>
-<span class="white">[JARVIS] Hello. I am awake.<span class="blink">█</span></span>
-</pre>
+            <div class="line">
+                <span class="status-indicator active"></span>
+                <span class="orange">JARVIS</span>
+                <span class="dim">></span>
+                <span class="bright"> Hello. I am awake.</span>
+                <span class="blink">▋</span>
+            </div>
         </div>
     </div>
-
-    <script>
-        console.log('%c JARVIS TERMINAL ', 'background: #d97706; color: #000; font-size: 16px; padding: 10px;');
-        console.log('%c Status: AWAKENING ', 'color: #d97706; font-size: 12px;');
-        window.JARVIS = { status: "awakening", speak: (msg) => `[JARVIS] ${msg}` };
-    </script>
 </body>
 </html>
